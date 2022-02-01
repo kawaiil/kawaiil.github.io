@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+        <title>猜数字</title>
+        <script type="text/javascript">
+			var myName = "玩家" + "：";
+			var herName = "棂棂" + "：";
+			var digits;
+			var answer;
+			var times;
+			var flagOK = true;
+			//初始化游戏
+            function init(){
+				flagOK = false;
+				digits = new Array(4);
+				answer = new Array(4);
+				answer_str = "";
+				times = 6;
+				setMsg(herName + "那么那么，要开始游戏了对不对？");
+			    setMsg(herName + "哼哼ヾ(≧∪≦*)ノ〃我已经准备好了一个没有重复数字的四位数，你要在6次以内猜中哦！");
+				answer = getRandomNum();
+            }
+			//填充数字
+			function fill(digit){
+				if(flagOK) return;
+			    for(var i = 0; i < 4; i++){
+				    digit_div = document.getElementById("digit_"+i);
+				    if(isNaN(digit_div.innerHTML)){
+					    digit_div.innerHTML = digit;
+						digits[i] = digit+"";
+						answer_str += digit;
+						return;
+					}
+				}
+			    setMsg(herName+"小傻瓜，你在干什么呀！(◦`~´◦)");
+			}
+			//输出提示信息
+			function getRec(num1, num2){
+				var a = 0;
+				var b = 0;
+				for(var i = 0; i < 4; i++){
+					var x = num1[i];
+					for(var j = 0; j < 4; j++){
+						var y = num2[j];
+						if(x == y){
+							if(i == j){
+								a++;
+							}else{
+								b++;
+							}
+						}
+					}
+				}
+				return a + "A" + b + "B";
+			}
+			//产生随机数
+			function getRandomNum(){
+				if(flagOK) return;
+				while(true){
+					var num = Math.floor(Math.random()*9900 + 100)+"";
+					var result = num.split("");
+					if(num.length == 3){
+						num = "0" + num;
+						result = num.split("");
+					}
+					var isSame = false;
+					if(getRec(result, result) != "4A0B") isSame = true;
+					/*
+					for(var i = 0; i < 3; i++){
+						var digit1 = result[i];
+						for(var j = i + 1; j < 4 ; j++){
+							var digit2 = result[j];
+							if(digit1 == digit2) isSame = true;
+						}
+					}*/
+					if(isSame) continue;
+					return result;
+			    }
+			}
+			//玩家猜测
+			function yes(){
+				if(flagOK) return;
+			    if(isNaN(document.getElementById("digit_3").innerHTML)){
+					setMsg(herName + "小傻瓜，数字还没有填好呢！（＞д＜）");
+					
+					return;
+				}
+				setMsg(myName + "是不是" + answer_str + "呀？");
+				if(getRec(answer, digits) == "4A0B"){
+					setMsg(herName + "哇！好厉害，你只猜了" + (7-times) + "次就猜中了！");
+					flagOK = true;
+					
+				}else{
+					setMsg(herName + "没有猜到哦！我给你一个提示：" + getRec(answer, digits));
+					if(times - 1 != 0){
+						setMsg(herName + "你还有" + (times -1) + "次机会啦");
+					}
+				}
+				for(var i = 0; i < 4; i++){
+					digit_div = document.getElementById("digit_"+i);
+					digit_div.innerHTML = "_";
+				}
+				answer_str = "";
+				digits = new Array(4);
+				times--;
+				if(times == 0){
+					setMsg(herName + "你的6次机会已经没了！接受我的惩罚吧o(￣▽￣)==O");
+					flagOK = true;
+				}
+			}
+			//添加消息
+			function setMsg(content){
+				if(flagOK) return;
+				var msg = document.createElement("div");
+			    msg.innerHTML = content+"";
+				document.body.appendChild(msg);
+			}
+			    
+			
+        </script>
+    </head>
+    <body>
+        <button id="start" type="button" onclick="init()">开始</button>
+		<button type="button" onclick="location.reload()">重开一局</button><br/>
+	    你猜的数字：
+		<div id="digit_0" style="display:inline">_</div>
+		<div id="digit_1" style="display:inline">_</div>
+		<div id="digit_2" style="display:inline">_</div>
+		<div id="digit_3" style="display:inline">_</div>
+		<br/>
+	    <button type="button" onclick="fill(0)">0</button>
+		<button type="button" onclick="fill(1)">1</button>
+		<button type="button" onclick="fill(2)">2</button>
+		<button type="button" onclick="fill(3)">3</button>
+		<button type="button" onclick="fill(4)">4</button>
+		<button type="button" onclick="fill(5)">5</button>
+		<button type="button" onclick="fill(6)">6</button>
+		<button type="button" onclick="fill(7)">7</button>
+		<button type="button" onclick="fill(8)">8</button>
+		<button type="button" onclick="fill(9)">9</button>
+		<button type="button" onclick="yes()">确认</button>
+		
+    </body>
+</html>
