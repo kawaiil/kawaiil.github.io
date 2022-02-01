@@ -17,9 +17,9 @@
 				digits = new Array(4);
 				answer = new Array(4);
 				answer_str = "";
-				times = 6;
+				times = 10;
 				setMsg(herName + "那么那么，要开始游戏了对不对？");
-			    setMsg(herName + "哼哼ヾ(≧∪≦*)ノ〃我已经准备好了一个没有重复数字的四位数，你要在6次以内猜中哦！");
+			    setMsg(herName + "哼哼ヾ(≧∪≦*)ノ〃我已经准备好了一个没有重复数字的四位数，你要在10次以内猜中哦！");
 				answer = getRandomNum();
             }
 			//填充数字
@@ -89,7 +89,7 @@
 				}
 				setMsg(myName + "是不是" + answer_str + "呀？");
 				if(getRec(answer, digits) == "4A0B"){
-					setMsg(herName + "哇！好厉害，你只猜了" + (7-times) + "次就猜中了！");
+					setMsg(herName + "哇！好厉害，你只猜了" + (11-times) + "次就猜中了！");
 					flagOK = true;
 					
 				}else{
