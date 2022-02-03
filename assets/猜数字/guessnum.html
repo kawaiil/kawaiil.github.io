@@ -11,9 +11,12 @@
 			var answer;
 			var times;
 			var flagOK = true;
+			var lastDigit = -1;
+			
 			//初始化游戏
             function init(){
 				flagOK = false;
+				lastDigit = -1;
 				digits = new Array(4);
 				answer = new Array(4);
 				answer_str = "";
@@ -22,20 +25,26 @@
 			    setMsg(herName + "哼哼ヾ(≧∪≦*)ノ〃我已经准备好了一个没有重复数字的四位数，你要在10次以内猜中哦！");
 				answer = getRandomNum();
             }
+			
 			//填充数字
 			function fill(digit){
-				if(flagOK) return;
+				if(flagOK){
+					remindStart();
+					return;
+				}
 			    for(var i = 0; i < 4; i++){
 				    digit_div = document.getElementById("digit_"+i);
 				    if(isNaN(digit_div.innerHTML)){
 					    digit_div.innerHTML = digit;
 						digits[i] = digit+"";
 						answer_str += digit;
+						lastDigit = i;
 						return;
 					}
 				}
 			    setMsg(herName+"小傻瓜，你在干什么呀！(◦`~´◦)");
 			}
+			
 			//输出提示信息
 			function getRec(num1, num2){
 				var a = 0;
@@ -55,9 +64,13 @@
 				}
 				return a + "A" + b + "B";
 			}
+			
 			//产生随机数
 			function getRandomNum(){
-				if(flagOK) return;
+				if(flagOK){
+					remindStart();
+					return;
+				}
 				while(true){
 					var num = Math.floor(Math.random()*9900 + 100)+"";
 					var result = num.split("");
@@ -67,21 +80,17 @@
 					}
 					var isSame = false;
 					if(getRec(result, result) != "4A0B") isSame = true;
-					/*
-					for(var i = 0; i < 3; i++){
-						var digit1 = result[i];
-						for(var j = i + 1; j < 4 ; j++){
-							var digit2 = result[j];
-							if(digit1 == digit2) isSame = true;
-						}
-					}*/
 					if(isSame) continue;
 					return result;
 			    }
 			}
+			
 			//玩家猜测
 			function yes(){
-				if(flagOK) return;
+				if(flagOK){
+					remindStart();
+					return;
+				}
 			    if(isNaN(document.getElementById("digit_3").innerHTML)){
 					setMsg(herName + "小傻瓜，数字还没有填好呢！（＞д＜）");
 					
@@ -105,18 +114,39 @@
 				answer_str = "";
 				digits = new Array(4);
 				times--;
+				lastDigit = -1;
 				if(times == 0){
 					setMsg(herName + "你的6次机会已经没了！接受我的惩罚吧o(￣▽￣)==O");
 					flagOK = true;
 				}
 			}
+			
+			//提示点击开始游戏
+			function remindStart(){
+				setMsg(herName + "小傻瓜，你还没有点击「开始」呢！￣へ￣");
+			}
+			
+			//删除最后一个数位
+			function rmDigit(){
+				if(flagOK){
+					remindStart();
+					return;
+				}
+				if(lastDigit >= 0){
+					document.getElementById("digit_" + lastDigit).innerHTML = "_";
+					lastDigit--;
+				}else{
+					setMsg(herName + "呜呜，已经删完了哦！( ๑ŏ ﹏ ŏ๑ )");
+				}
+			}
+			
 			//添加消息
 			function setMsg(content){
-				if(flagOK) return;
 				var msg = document.createElement("div");
 			    msg.innerHTML = content+"";
 				document.body.appendChild(msg);
 			}
+			
 			    
 			
         </script>
@@ -140,6 +170,7 @@
 		<button type="button" onclick="fill(7)">7</button>
 		<button type="button" onclick="fill(8)">8</button>
 		<button type="button" onclick="fill(9)">9</button>
+		<button type="button" onclick="rmDigit()">删除</button>
 		<button type="button" onclick="yes()">确认</button>
 		
     </body>
