@@ -15,6 +15,10 @@
 			
 			//初始化游戏
             function init(){
+                if(!flagOK){
+                    setMsg(herName + "已经开始游戏了哦！(๑•॒̀ ູ॒•́๑)");
+                    return;
+                }
 				flagOK = false;
 				lastDigit = -1;
 				digits = new Array(4);
