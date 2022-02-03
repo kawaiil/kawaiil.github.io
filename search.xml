@@ -12,6 +12,18 @@
       </tags>
   </entry>
   <entry>
+    <title>猜数字</title>
+    <url>/2022/02/01/%E7%8C%9C%E6%95%B0%E5%AD%97/</url>
+    <content><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;这是一个网页版的小游戏哦！</p>
+<span id="more"></span>
+<a href="/assets/猜数字/guessnum.html">开始游戏</a><br/>
+<a href="/assets/猜数字/help.html">帮助</a>
+]]></content>
+      <tags>
+        <tag>小游戏</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>随机二次元图片</title>
     <url>/2022/01/31/%E9%9A%8F%E6%9C%BA%E4%BA%8C%E6%AC%A1%E5%85%83%E5%9B%BE%E7%89%87/</url>
     <content><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;就是你(≧ω≦)，点进来的朋友！我默认你是<b><font color="#f00">老二刺螈</font></b>啦！</p>
@@ -26,18 +38,6 @@
 ]]></content>
       <tags>
         <tag>二次元</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>猜数字</title>
-    <url>/2022/02/01/%E7%8C%9C%E6%95%B0%E5%AD%97/</url>
-    <content><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;这是一个网页版的小游戏哦！</p>
-<span id="more"></span>
-<a href="/assets/猜数字/guessnum.html">开始游戏</a><br/>
-<a href="/assets/猜数字/help.html">帮助</a>
-]]></content>
-      <tags>
-        <tag>小游戏</tag>
       </tags>
   </entry>
 </search>
