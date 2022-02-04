@@ -207,11 +207,12 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
+    if (CONFIG.comments.storage) {Q
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
@@ -227,7 +228,7 @@
       let commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
-  }
+ 	 }
 </script>
 
         </div>
@@ -266,7 +267,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -361,6 +362,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'a7a4c17f68f4fdc6353a',
+      clientSecret: 'f6e9088a44ae4ec0a93d0765c91471de1b61236a',
+      repo        : 'kawaiil.github.io',
+      owner       : 'kawaiil',
+      admin       : ['kawaiil'],
+      id          : 'a676607444a8bc8b150c9a3aff884e61',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
   
 </body>

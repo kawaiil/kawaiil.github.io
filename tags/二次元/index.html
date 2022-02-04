@@ -211,7 +211,7 @@
 <script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
+    if (CONFIG.comments.storage) {Q
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
@@ -227,7 +227,7 @@
       let commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
-  }
+ 	 }
 </script>
 
         </div>
@@ -266,7 +266,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -361,6 +361,7 @@
   
 
   
+
 
   
 </body>
