@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>tap！</title>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<style type="text/css">
+			html, body {
+				width: 100%;
+				height: 100%;
+			}
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.box {
+				width: 100%;
+				height: 100%;
+				background-color: #ffc0cb;
+				margin = 40px auto;
+				position: relative;
+				overflow: hidden;
+			}
+			.begin {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				z-index: 666;
+				background-color: rgba(0, 0, 0, 0.5);
+				cursor: pointer;
+				text-align: center;
+			}
+			.scroll {
+				width: 100%;
+				height: 25%;
+				position: absolute;
+				top: -25%;
+			}
+			.scroll ul li{
+				float: left;
+				border: 1px solid black;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="box">
+    		<div class="scroll">
+        		<ul>
+            		<li></li>
+            		<li></li>
+            		<li></li>
+            		<li></li>
+        		</ul>
+    		</div>
+			<div class="begin">
+				<div id="scoreBoard"></div>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;请选择一个难度：</p><br/><hr/><br/>
+				<button onclick="setDif(0)">简单</button><br/><hr/><br/>
+				<button onclick="setDif(1)">普通</button><br/><hr/><br/>
+				<button onclick="setDif(2)">困难</button><br/><hr/><br/>
+				<button onclick="setDif(3)">加速</button><br/><hr/><br/>
+				<button onclick="setDif(-1)">随机</button><br/><hr/><br/>
+				
+			</div>
+		</div>
+	</body>
+		<script type="text/javascript">
+			var speed = 5;
+			var isUp = false;
+			var box = document.querySelector(".box");
+			var scroll = document.querySelector(".scroll");
+			var begin = document.querySelector(".begin");
+			var timer = null;
+			var width = document.body.clientWidth;
+			var height = document.body.clientHeight;
+			
+			function beginGame(){
+				var score = 0;
+				timer = setInterval(function (){
+					scroll.style.top = scroll.offsetTop + speed + "px";
+					if (scroll.offsetTop >= 0) {
+                		createNewRow();
+                		scroll.style.top = "-" + height / 4 + "px";
+            		}
+            		// 绑定事件target
+            		scroll.onclick = function (ev) {
+                		var target = ev.target;
+                		if (target.className == 'tag') {
+                    		target.style.backgroundColor = "#bbb";
+							target.className = 'tapped';
+							score++;
+                		} else {
+							if(target.className != "tapped"){
+                    			scroll.style.top = 0;
+								var scoreBo = document.getElementById("scoreBoard");
+								scoreBo.innerHTML = '你的得分是: ' + score;
+								clearInterval(timer);
+								begin.style.display = "block";
+								isUp = false;
+							}
+                		}
+						if(isUp && score % 20 == 0 && score != 0){
+							speed++;
+						}
+            		};
+            	// 删除第一行
+            	if (scroll.children.length == 6) {
+                	for (var i = 0; i < 4; i++) {
+                    	if (scroll.children[scroll.children.length - 1].children[i].className == 'tag') {
+                        	scroll.style.top = "-" + height / 4 + "px";
+                            var scoreBo = document.getElementById("scoreBoard");
+							scoreBo.innerHTML = '你的得分是: ' + score;
+							clearInterval(timer);
+							begin.style.display = "block";
+							isUp = false;
+                        }
+                	}
+                	scroll.removeChild(scroll.children[scroll.children.length - 1]);
+				}
+				}, 20);
+				
+			}
+			
+			//设置游戏难度
+			function setDif(level){
+				if(-1 == level){
+					level = getRand(4);
+				}
+				if(0 == level){
+					speed = 5;
+				}else if(1 == level){
+					speed = 8;
+				}else if(2 == level){
+					speed = 10;
+				}else if(3 == level){
+				    speed = 5;
+					isUp = true;
+				}else{
+				
+				}
+				begin.style.display = 'none';
+				box.style.border = '1px solid black';
+				box.style.backgroundColor = 'white';
+				scroll.innerHTML = "";
+				beginGame();
+				
+			}
+			function createNewRow() {
+        		var row = document.createElement('ul');
+				row.style.width = width + "px";
+        		var index = getRand(4);
+        		for (var i = 0; i < 4; i++) {
+            		var li = document.createElement('li');
+					li.style.width = width / 4 - 2 + "px";
+					li.style.height = height / 4 -2 + "px";
+            		row.appendChild(li);
+        		}
+
+        		if (scroll.children.length == 0) {
+            		scroll.appendChild(row);
+        		} else {
+            		scroll.insertBefore(row, scroll.children[0]);
+        		}
+
+        		row.children[index].style.backgroundColor = 'black';
+        		row.children[index].className = "tag";
+    		}
+			//获取随机数
+			function getRand(n){
+				return parseInt(Math.random() * n);
+			}
+		</script>
+		
+</html>
