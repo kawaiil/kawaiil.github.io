@@ -12,6 +12,18 @@
       </tags>
   </entry>
   <entry>
+    <title>猜数字</title>
+    <url>/2022/02/01/%E7%8C%9C%E6%95%B0%E5%AD%97/</url>
+    <content><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;这是一个网页版的小游戏哦！</p>
+<span id="more"></span>
+<a href="/assets/猜数字/guessnum.html">开始游戏</a><br/>
+<a href="/assets/猜数字/help.html">帮助</a>
+]]></content>
+      <tags>
+        <tag>小游戏</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>tap!</title>
     <url>/2022/02/03/tap/</url>
     <content><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;这是一个网页版的小游戏哦！</p>
@@ -19,18 +31,6 @@
 <span id="more"></span>
 
 <p><a href="/assets/tap!/tapping.html">进入游戏</a></p>
-]]></content>
-      <tags>
-        <tag>小游戏</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>猜数字</title>
-    <url>/2022/02/01/%E7%8C%9C%E6%95%B0%E5%AD%97/</url>
-    <content><![CDATA[<p>&nbsp;&nbsp;&nbsp;&nbsp;这是一个网页版的小游戏哦！</p>
-<span id="more"></span>
-<a href="/assets/猜数字/guessnum.html">开始游戏</a><br/>
-<a href="/assets/猜数字/help.html">帮助</a>
 ]]></content>
       <tags>
         <tag>小游戏</tag>
