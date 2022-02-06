@@ -20,7 +20,6 @@
 			.box {
 				width: 100%;
 				height: 100%;
-				//background-color: #ffc0cb;
 				margin = 40px auto;
 				position: relative;
 				overflow: hidden;
@@ -30,7 +29,7 @@
 				height: 100%;
 				position: absolute;
 				z-index: 666;
-				background-color: rgba(0, 0, 0, 0.5);
+				background-color: rgba(0, 0, 0, 0);
 				cursor: pointer;
 				text-align: center;
 			}
@@ -44,11 +43,55 @@
 				float: left;
 				//border: 1px solid black;
 			}
+			.btn {
+				width: 24%;
+				height: 15%；
+				background-color: rgba(255, 51, 102, 0.8);
+				border: none;
+				border-radius: 10px;
+				outline: none;
+				position:relative;
+				z-index: 0;
+			}
 			
+			.btn::before{
+				position: absolute;
+				content: "";
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				height: 0;
+				transition: all 0.3s ease;
+				border-radius: 10px;
+				background-color: rgba(255, 51, 102, 0.8);
+				z-index: -1;
+			}
+			.btn:hover::before{
+				top: 0;
+				height: 100%;
+				background-color: rgba(255, 51, 102, 0.8);
+			}
+			.btn:active{
+				top: 2px;
+				background-color: rgba(255, 51, 102, 0.8);
+			}
+            .hint{
+                position: relative;
+                background-color: rgba(0,0,0,0);
+                z-index: 1000;
+            }
 		</style>
 	</head>
 	<body id="body">
 		<div class="box">
+			<div class="hint">
+                <div id="hint_level" class="hint_more"></div>
+                <div id="hint_score" class="hint_more"></div>
+                <div id="hint_other_0" class="hint_more"></div>
+                <div id="hint_other_1" class="hint_more"></div>
+                <div id="hint_other_2" class="hint_more"></div>
+            </div>
+			
     		<div class="scroll">
         		<ul>
             		<li></li>
@@ -58,13 +101,13 @@
         		</ul>
     		</div>
 			<div class="begin">
-				<div id="scoreBoard"></div>
+				
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;请选择一个难度：</p><br/><br/>
-				<button onclick="setDif(0)">简单</button><br/><br/>
-				<button onclick="setDif(1)">普通</button><br/><br/>
-				<button onclick="setDif(2)">困难</button><br/><br/>
-				<button onclick="setDif(3)">加速</button><br/><br/>
-				<button onclick="setDif(-1)">随机</button><br/><br/>
+				<button onclick="setDif(0)" class="btn">简单</button><br/><br/>
+				<button onclick="setDif(1)" class="btn">普通</button><br/><br/>
+				<button onclick="setDif(2)" class="btn">困难</button><br/><br/>
+				<button onclick="setDif(3)" class="btn">加速</button><br/><br/>
+				<button onclick="setDif(-1)" class="btn">随机</button><br/><br/>
 				
 			</div>
 		</div>
@@ -83,7 +126,9 @@
 			
 			function beginGame(){
 				var score = 0;
+                var h_score = document.getElementById("hint_score");
 				timer = setInterval(function (){
+                    h_score.innerHTML = "得分：" + score;
 					scroll.style.top = scroll.offsetTop + speed + "px";
 					if (scroll.offsetTop >= 0) {
                 		createNewRow();
@@ -100,8 +145,6 @@
                 		} else {
 							if(target.className != "tapped"){
                     			scroll.style.top = 0;
-								var scoreBo = document.getElementById("scoreBoard");
-								scoreBo.innerHTML = '你的得分是: ' + score;
 								clearInterval(timer);
 								begin.style.display = "block";
 								isUp = false;
@@ -109,6 +152,7 @@
                 		}
 						if(isUp && score % 10 == 0 && score != 0){
 							speed++;
+                            
 						}
             		};
             	// 删除第一行
@@ -116,8 +160,6 @@
                 	for (var i = 0; i < 4; i++) {
                     	if (scroll.children[scroll.children.length - 1].children[i].className == 'tag') {
                         	scroll.style.top = "-" + height / 4 + "px";
-                            var scoreBo = document.getElementById("scoreBoard");
-							scoreBo.innerHTML = '你的得分是: ' + score;
 							clearInterval(timer);
 							begin.style.display = "block";
 							isUp = false;
@@ -125,23 +167,29 @@
                 	}
                 	scroll.removeChild(scroll.children[scroll.children.length - 1]);
 				}
+                
 				}, 20);
 				
 			}
 			
 			//设置游戏难度
 			function setDif(level){
+                var level_text;
 				if(-1 == level){
 					level = getRand(4);
 				}
 				if(0 == level){
 					speed = 5;
+                    level_text = "简单";
 				}else if(1 == level){
 					speed = 8;
+                    level_text = "普通";
 				}else if(2 == level){
-					speed = 10;
+					speed = 12;
+                    level_text = "困难";
 				}else if(3 == level){
 				    speed = 5;
+                    level_text = "加速";
 					isUp = true;
 				}else{
 				
@@ -150,6 +198,9 @@
 				//box.style.border = '1px solid black';
 				//box.style.backgroundColor = 'white';
 				scroll.innerHTML = "";
+                var h_level = document.getElementById("hint_level");
+                
+                h_level.innerHTML = "难度：" + level_text; 
 				beginGame();
 				
 			}
