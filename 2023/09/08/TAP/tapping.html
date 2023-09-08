@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>tap！</title>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<style type="text/css">
+			html, body {
+				width: 100%;
+				height: 100%;
+				background-position: center top;
+				background-repeat: no-repeat;
+                background-size: cover;
+            }
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.box {
+				width: 100%;
+				height: 100%;
+				margin = 40px auto;
+				position: relative;
+				overflow: hidden;
+			}
+			.begin {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				z-index: 666;
+				background-color: rgba(0, 0, 0, 0);
+				cursor: pointer;
+				text-align: center;
+			}
+			.scroll {
+				width: 100%;
+				height: 25%;
+				position: absolute;
+				top: -25%;
+			}
+			.scroll ul li{
+				float: left;
+				//border: 1px solid black;
+			}
+			.btn {
+				width: 24%;
+				height: 15%；
+				background-color: rgba(255, 51, 102, 0.8);
+				border: none;
+				border-radius: 10px;
+				outline: none;
+				position:relative;
+				z-index: 0;
+			}
+			
+			.btn::before{
+				position: absolute;
+				content: "";
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				height: 0;
+				transition: all 0.3s ease;
+				border-radius: 10px;
+				background-color: rgba(255, 51, 102, 0.8);
+				z-index: -1;
+			}
+			.btn:hover::before{
+				top: 0;
+				height: 100%;
+				background-color: rgba(255, 51, 102, 0.8);
+			}
+			.btn:active{
+				top: 2px;
+				background-color: rgba(255, 51, 102, 0.8);
+			}
+            .hint{
+                position: relative;
+                background-color: rgba(0,0,0,0);
+                z-index: 1000;
+            }
+		</style>
+	</head>
+	<body id="body">
+		<div class="box">
+			<div class="hint">
+                <div id="hint_level" class="hint_more"></div>
+                <div id="hint_score" class="hint_more"></div>
+                <div id="hint_other_0" class="hint_more"></div>
+                <div id="hint_other_1" class="hint_more"></div>
+                <div id="hint_other_2" class="hint_more"></div>
+            </div>
+			
+    		<div class="scroll">
+        		<ul>
+            		<li></li>
+            		<li></li>
+            		<li></li>
+            		<li></li>
+        		</ul>
+    		</div>
+			<div class="begin">
+				
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;请选择一个难度：</p><br/><br/>
+				<button onclick="setDif(0)" class="btn">简单</button><br/><br/>
+				<button onclick="setDif(1)" class="btn">普通</button><br/><br/>
+				<button onclick="setDif(2)" class="btn">困难</button><br/><br/>
+				<button onclick="setDif(3)" class="btn">加速</button><br/><br/>
+				<button onclick="setDif(-1)" class="btn">随机</button><br/><br/>
+				
+			</div>
+		</div>
+	</body>
+		<script type="text/javascript">
+            document.getElementById("body").style.backgroundImage = "url('mm_" + getRand(13) + ".png')";
+
+			var speed = 5;
+			var isUp = false;
+			var box = document.querySelector(".box");
+			var scroll = document.querySelector(".scroll");
+			var begin = document.querySelector(".begin");
+			var timer = null;
+			var width = document.body.clientWidth;
+			var height = document.body.clientHeight;
+			
+			function beginGame(){
+				var score = 0;
+                var h_score = document.getElementById("hint_score");
+				timer = setInterval(function (){
+                    h_score.innerHTML = "得分：" + score;
+					scroll.style.top = scroll.offsetTop + speed + "px";
+					if (scroll.offsetTop >= 0) {
+                		createNewRow();
+                		scroll.style.top = "-" + height / 4 + "px";
+            		}
+            		// 绑定事件target
+            		scroll.onclick = function (ev) {
+                		var target = ev.target;
+                		if (target.className == 'tag') {
+                    		target.style.backgroundColor = "#ffecf6";
+                            target.style.opacity = 0.4;
+							target.className = 'tapped';
+							score++;
+                		} else {
+							if(target.className != "tapped"){
+                    			scroll.style.top = 0;
+								clearInterval(timer);
+								begin.style.display = "block";
+								isUp = false;
+							}
+                		}
+						if(isUp && score % 10 == 0 && score != 0){
+							speed++;
+                            
+						}
+            		};
+            	// 删除第一行
+            	if (scroll.children.length == 6) {
+                	for (var i = 0; i < 4; i++) {
+                    	if (scroll.children[scroll.children.length - 1].children[i].className == 'tag') {
+                        	scroll.style.top = "-" + height / 4 + "px";
+							clearInterval(timer);
+							begin.style.display = "block";
+							isUp = false;
+                        }
+                	}
+                	scroll.removeChild(scroll.children[scroll.children.length - 1]);
+				}
+                
+				}, 20);
+				
+			}
+			
+			//设置游戏难度
+			function setDif(level){
+                var level_text;
+				if(-1 == level){
+					level = getRand(4);
+				}
+				if(0 == level){
+					speed = 5;
+                    level_text = "简单";
+				}else if(1 == level){
+					speed = 8;
+                    level_text = "普通";
+				}else if(2 == level){
+					speed = 12;
+                    level_text = "困难";
+				}else if(3 == level){
+				    speed = 5;
+                    level_text = "加速";
+					isUp = true;
+				}else{
+				
+				}
+				begin.style.display = 'none';
+				//box.style.border = '1px solid black';
+				//box.style.backgroundColor = 'white';
+				scroll.innerHTML = "";
+                var h_level = document.getElementById("hint_level");
+                
+                h_level.innerHTML = "难度：" + level_text; 
+				beginGame();
+				
+			}
+			function createNewRow() {
+        		var row = document.createElement('ul');
+				row.style.width = width + "px";
+        		var index = getRand(4);
+        		for (var i = 0; i < 4; i++) {
+            		var li = document.createElement('li');
+					li.style.width = width / 4 + "px";
+					li.style.height = height / 4 + "px";
+            		row.appendChild(li);
+        		}
+
+        		if (scroll.children.length == 0) {
+            		scroll.appendChild(row);
+        		} else {
+            		scroll.insertBefore(row, scroll.children[0]);
+        		}
+
+        		row.children[index].style.backgroundColor = "#ffd8f6";
+                row.children[index].style.opacity = 0.9;
+        		row.children[index].className = "tag";
+    		}
+			//获取随机数
+			function getRand(n){
+				return parseInt(Math.random() * n);
+			}
+		</script>
+		
+</html>
