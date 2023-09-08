@@ -29,16 +29,33 @@
   <entry>
     <title>TAP</title>
     <url>/2023/09/08/TAP/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<p>这是一个网页版的小游戏！<br>欢迎体验！</p>
+<span id="more"></span>
 
 <a href="/2023/09/08/TAP/tapping.html" title="点击进入游戏">点击进入游戏</a>
 ]]></content>
       <categories>
-        <category>休闲</category>
-        <category>娱乐</category>
+        <category>游戏</category>
       </categories>
       <tags>
-        <tag>游戏</tag>
+        <tag>休闲</tag>
+        <tag>娱乐</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>猜数字</title>
+    <url>/2023/09/09/%E7%8C%9C%E6%95%B0%E5%AD%97/</url>
+    <content><![CDATA[<p>这是一个网页版的小游戏！<br>欢迎体验！</p>
+<span id="more"></span>
+
+<a href="/2023/09/09/%E7%8C%9C%E6%95%B0%E5%AD%97/guessnum.html" title="点击开始">点击开始</a>
+]]></content>
+      <categories>
+        <category>游戏</category>
+      </categories>
+      <tags>
+        <tag>休闲</tag>
+        <tag>娱乐</tag>
       </tags>
   </entry>
 </search>

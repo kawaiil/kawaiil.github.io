@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+        <title>猜数字</title>
+        <script type="text/javascript">
+			var myName = "玩家" + "：";
+			var herName = "棂棂" + "：";
+			var digits;
+			var answer;
+			var times;
+			var flagOK = true;
+			var lastDigit = -1;
+			
+			//初始化游戏
+            function init(){
+                if(!flagOK){
+                    setMsg(herName + "游戏开始！");
+                    return;
+                }
+				flagOK = false;
+				lastDigit = -1;
+				digits = new Array(4);
+				answer = new Array(4);
+				answer_str = "";
+				times = 7;
+			    setMsg(herName + "我已经准备好了一个没有重复数字的四位数，请你在7次以内猜中");
+				answer = getRandomNum();
+            }
+			
+			//填充数字
+			function fill(digit){
+				if(flagOK){
+					remindStart();
+					return;
+				}
+			    for(var i = 0; i < 4; i++){
+				    digit_div = document.getElementById("digit_"+i);
+				    if(isNaN(digit_div.innerHTML)){
+					    digit_div.innerHTML = digit;
+						digits[i] = digit+"";
+						answer_str += digit;
+						lastDigit = i;
+						return;
+					}
+				}
+			    setMsg(herName+"无效操作");
+			}
+			
+			//输出提示信息
+			function getRec(num1, num2){
+				var a = 0;
+				var b = 0;
+				for(var i = 0; i < 4; i++){
+					var x = num1[i];
+					for(var j = 0; j < 4; j++){
+						var y = num2[j];
+						if(x == y){
+							if(i == j){
+								a++;
+							}else{
+								b++;
+							}
+						}
+					}
+				}
+				return a + "A" + b + "B";
+			}
+			
+			//产生随机数
+			function getRandomNum(){
+				if(flagOK){
+					remindStart();
+					return;
+				}
+				while(true){
+					var num = Math.floor(Math.random()*9900 + 100)+"";
+					var result = num.split("");
+					if(num.length == 3){
+						num = "0" + num;
+						result = num.split("");
+					}
+					var isSame = false;
+					if(getRec(result, result) != "4A0B") isSame = true;
+					if(isSame) continue;
+					return result;
+			    }
+			}
+			
+			//玩家猜测
+			function yes(){
+				if(flagOK){
+					remindStart();
+					return;
+				}
+			    if(isNaN(document.getElementById("digit_3").innerHTML)){
+					setMsg(herName + "数字未填好");
+					
+					return;
+				}
+				setMsg(myName + "答案是" + answer_str + "吗？");
+				if(getRec(answer, digits) == "4A0B"){
+					setMsg(herName + "恭喜！你猜对了！猜测次数：" + (8-times) + "次");
+					flagOK = true;
+					
+				}else{
+					setMsg(herName + "答案错误！请看提示：" + getRec(answer, digits));
+					if(times - 1 != 0){
+						setMsg(herName + "你还有" + (times -1) + "次机会");
+					}
+				}
+				for(var i = 0; i < 4; i++){
+					digit_div = document.getElementById("digit_"+i);
+					digit_div.innerHTML = "_";
+				}
+				answer_str = "";
+				digits = new Array(4);
+				times--;
+				lastDigit = -1;
+				if(times == 0){
+					setMsg(herName + "很遗憾，你没能猜出最终的答案！");
+					flagOK = true;
+				}
+			}
+			
+			//提示点击开始游戏
+			function remindStart(){
+				setMsg(herName + "请点击「开始」后再进行后续操作！");
+			}
+			
+			//删除最后一个数位
+			function rmDigit(){
+				if(flagOK){
+					remindStart();
+					return;
+				}
+				if(lastDigit >= 0){
+					document.getElementById("digit_" + lastDigit).innerHTML = "_";
+					lastDigit--;
+				}else{
+					setMsg(herName + "已清空");
+				}
+			}
+			
+			//添加消息
+			function setMsg(content){
+				var msg = document.createElement("div");
+			    msg.innerHTML = content+"";
+				document.body.appendChild(msg);
+			}
+			
+			    
+			
+        </script>
+    </head>
+    <body>
+        <button id="start" type="button" onclick="init()">开始</button>
+		<button type="button" onclick="location.reload()">重开一局</button><br/>
+	    你猜的数字：
+		<div id="digit_0" style="display:inline">_</div>
+		<div id="digit_1" style="display:inline">_</div>
+		<div id="digit_2" style="display:inline">_</div>
+		<div id="digit_3" style="display:inline">_</div>
+		<br/>
+	    <button type="button" onclick="fill(0)">0</button>
+		<button type="button" onclick="fill(1)">1</button>
+		<button type="button" onclick="fill(2)">2</button>
+		<button type="button" onclick="fill(3)">3</button>
+		<button type="button" onclick="fill(4)">4</button>
+		<button type="button" onclick="fill(5)">5</button>
+		<button type="button" onclick="fill(6)">6</button>
+		<button type="button" onclick="fill(7)">7</button>
+		<button type="button" onclick="fill(8)">8</button>
+		<button type="button" onclick="fill(9)">9</button>
+		<button type="button" onclick="rmDigit()">删除</button>
+		<button type="button" onclick="yes()">确认</button>
+		
+    </body>
+</html>
