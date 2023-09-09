@@ -13,7 +13,7 @@
 			var flagOK = true;
 			var lastDigit = -1;
 			
-			//初始化游戏
+	    //初始化游戏
             function init(){
                 if(!flagOK){
                     setMsg(herName + "游戏开始！");
@@ -138,6 +138,8 @@
 				if(lastDigit >= 0){
 					document.getElementById("digit_" + lastDigit).innerHTML = "_";
 					lastDigit--;
+					delete(digits[-1]);
+					answer_str = amswer_str.slice(0, -1);
 				}else{
 					setMsg(herName + "已清空");
 				}
